@@ -42,10 +42,6 @@
     </label>
   </fieldset>
 
-  <%= form.label :body, class: "flex flex-column justify-start align-start" do %>
-    <%= form.text_area :body, class: "input full-width", rows: 10, placeholder: "Details…" %>
-  <% end %>
-
   <%= form.button class: "btn btn--reversed" do %>
     <%= image_tag "check.svg", aria: { hidden: "true" }, size: 24%>
     <span class="for-screen-reader">Save</span>
