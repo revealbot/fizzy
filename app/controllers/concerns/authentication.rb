@@ -30,9 +30,7 @@ module Authentication
     end
 
     def find_session_by_cookie
-      if token = cookies.signed[:session_token]
-        Session.find_signed(token)
-      end
+      Session.find_signed(cookies.signed[:session_token])
     end
 
 
