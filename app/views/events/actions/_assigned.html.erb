@@ -1,1 +1,1 @@
-<span>Assigned to <%= event.assignees.map(&:name).to_sentence %> <%= time_ago_in_words(event.created_at) %> ago.</span>
+<span>Assigned to <%= event.assignees.pluck(:name).to_sentence %> <%= time_ago_in_words(event.created_at) %> ago.</span>

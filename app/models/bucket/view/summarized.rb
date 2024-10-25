@@ -15,7 +15,7 @@ module Bucket::View::Summarized
     end
 
     def assignee_summary
-      "assigned to <mark>#{assignees.map(&:name).to_choice_sentence}</mark>" if assignees.any?
+      "assigned to <mark>#{assignees.pluck(:name).to_choice_sentence}</mark>" if assignees.any?
     end
 
     def tag_summary
