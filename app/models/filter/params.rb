@@ -17,12 +17,12 @@ module Filter::Params
 
   def to_h
     @to_h ||= {}.tap do |h|
+      h["tags"] = tags
+      h["terms"] = terms
+      h["buckets"] = buckets
+      h["assignees"] = assignees
       h["indexed_by"] = indexed_by
       h["assignments"] = assignments
-      h["assignees"] = assignees
-      h["tags"] = tags
-      h["buckets"] = buckets
-      h["terms"] = terms
     end.reject do |k, v|
       default_fields[k] == v
     end.compact_blank.with_indifferent_access

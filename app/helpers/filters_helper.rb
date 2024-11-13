@@ -3,6 +3,10 @@ module FiltersHelper
     "#{name}_filter--#{value}"
   end
 
+  def filter_chip_frame_id(kind)
+    "#{kind}_chips"
+  end
+
   def filter_chips(filter, **)
     safe_join [
       chips_for_filter_kind(filter, :indexed_by, **),
@@ -71,17 +75,13 @@ module FiltersHelper
       when :terms
         [ %Q("#{object}"), object, "terms[]" ]
       end.then do |display, value, name|
-        { display: display, value: value, name: name, frame: filter_chip_frame(kind) }
+        { display: display, value: value, name: name, frame: filter_chip_frame_id(kind) }
       end
-    end
-
-    def filter_chip_frame(kind)
-      "#{kind}_chips"
     end
 
     def frame_for_filter_kind(filter, kind, **)
       chips_for_filter_kind(filter, kind, **).then do |chips|
-        turbo_frame_tag filter_chip_frame(kind) do
+        turbo_frame_tag filter_chip_frame_id(kind) do
           safe_join chips
         end
       end

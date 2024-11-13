@@ -44,6 +44,7 @@
 
       <%= form_with url: filter_chips_path, method: :post, class: "flex gap flex-item-grow align-center justify-center full-width center margin-block" do %>
         <%= hidden_field_tag :name, "terms[]" %>
+        <%= hidden_field_tag :frame, filter_chip_frame_id(:terms) %>
         <input name="value" type="text" class="input full-width" placeholder="Type to match words…" autocomplete="off" />
 
         <button class="btn txt-small" type="submit">
