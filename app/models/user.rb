@@ -52,6 +52,6 @@ class User < ApplicationRecord
     end
 
     def grant_access_to_buckets
-      Access.insert_all(account.buckets.all_access.pluck(:id).collect { |bucket_id| { bucket_id: bucket_id, user_id: id } })
+      Access.insert_all account.buckets.all_access.pluck(:id).collect { |bucket_id| { bucket_id: bucket_id, user_id: id } }
     end
 end
