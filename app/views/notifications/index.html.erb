@@ -2,16 +2,13 @@
 
 <% content_for :header do %>
   <nav>
-    <%= link_to root_path, class: "btn flex-item-justify-start", data: { controller: "hotkey", action: "keydown.esc@document->hotkey#click" } do %>
-      <%= image_tag "arrow-left.svg", aria: { hidden: true }, size: 24 %>
-      <span class="for-screen-reader">Go back</span>
-    <% end %>
-
-    <header class="txt-align-center">
-      <h1 class="txt-large flex align-center gap-half"><%= @page_title %></h1>
+    <header class="flex flex-column center margin-block-end">
+      <div class="flex align-center gap justify-center">
+        <%= link_to "Projects", root_path %>
+        <%= link_to "Activity", events_path %>
+      </div>
+      <h1 class="txt-x-large"><%= @page_title %></h1>
     </header>
-
-    <div class="btn btn--placeholder flex-item-justify-end"></div>
   </nav>
 <% end %>
 
