@@ -85,6 +85,10 @@
       <%= image_tag "trash.svg", aria: { hidden: true }, size: 24 %>
       <span class="overflow-ellipsis">Delete</span>
     <% end %>
+
+    <% if @bubble.published? %>
+      <%= turbo_frame_tag dom_id(@bubble, :watch), src: bucket_bubble_watch_path(@bubble.bucket, @bubble) %>
+    <% end %>
   </div>
 </aside>
 

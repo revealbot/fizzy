@@ -1,0 +1,20 @@
+<%= turbo_frame_tag dom_id(@bubble, :watch) do %>
+  <% if @bubble.watching? Current.user %>
+    <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), method: :delete, class: "btn" do %>
+      <%= image_tag "bookmark.svg", aria: { hidden: true }, size: 24 %>
+      <span class="overflow-ellipsis">Stop watching</span>
+    <% end %>
+  <% else %>
+    <%= button_to bucket_bubble_watch_path(@bubble.bucket, @bubble), class: "btn" do %>
+      <%= image_tag "bookmark-outline.svg", aria: { hidden: true }, size: 24 %>
+      <span class="overflow-ellipsis">Watch this</span>
+    <% end %>
+  <% end %>
+
+
+  <%= pluralize @watchers.count, "other" %> watching this bubble
+
+  <div class="flex">
+    <%= render partial: "bubbles/watches/watcher", collection: @watchers %>
+  </div>
+<% end %>

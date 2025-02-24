@@ -47,6 +47,7 @@ Rails.application.routes.draw do
         resource :recover
         resource :stage_picker
         resources :stagings
+        resource :watch
       end
 
       namespace :assignments, as: :assignment do
