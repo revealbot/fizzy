@@ -8,8 +8,9 @@
     <div class="flex-inline center position-relative" data-controller="dialog" data-action="keydown.esc->dialog#close click@document->dialog#closeOnClickOutside">
 
       <div class="btn-dialog">
-        <button class="btn borderless" data-action="click->dialog#open:stop">
-          <span>Close as…</span>
+        <button class="btn btn--dialog borderless" data-action="click->dialog#open:stop">
+          <span>Close as</span>
+          <%= icon_tag "caret-down" %>
         </button>
 
         <dialog class="popup panel flex-column align-start gap-half shadow" style="--row-gap: 0.2em;"

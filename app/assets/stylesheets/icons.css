@@ -35,6 +35,7 @@
   .icon--calendar-add { --svg: url("calendar-add.svg "); }
   .icon--calendar { --svg: url("calendar.svg "); }
   .icon--camera { --svg: url("camera.svg "); }
+  .icon--caret-down { --svg: url("caret-down.svg "); }
   .icon--chart { --svg: url("chart.svg "); }
   .icon--check { --svg: url("check.svg "); }
   .icon--close { --svg: url("close.svg "); }

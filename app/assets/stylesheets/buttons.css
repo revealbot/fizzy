@@ -192,21 +192,14 @@
       animation: zoom-fade 300ms ease-out;
     }
   }
-}
 
+  .btn--dialog {
+    .icon--caret-down {
+      font-size: 1ch;
+    }
 
-
-
-
-
-.btn-dialog {
-  .popup {
-    background-color: var(--bubble-color, var(--color-bg));
-    margin-top: var(--btn-size);
-  }
-
-  .popup__item {
-    --btn-background: var(--bubble-color);
-    --btn-color: var(--color-bg);
+    + .popup {
+      margin-top: var(--btn-size);
+    }
   }
 }
