@@ -7,7 +7,6 @@ class Card::Eventable::SystemCommenter
 
   def comment
     return unless comment_body.present?
-
     if comment = find_replaceable_system_comment
       comment.update! body: comment_body
     else
@@ -17,9 +16,7 @@ class Card::Eventable::SystemCommenter
 
   private
     REPLACEABLE_EVENTS = [
-      %w[ card_assigned card_unassigned ],
-      %w[ card_staged card_unstaged ],
-      %w[ card_due_date_added card_due_date_changed card_due_date_removed ]
+      %w[ card_assigned card_unassigned ]
     ]
 
     def comment_body
@@ -36,14 +33,6 @@ class Card::Eventable::SystemCommenter
         "#{event.creator.name} moved this to '#{event.stage_name}'."
       when "card_closed"
         "Closed by #{ event.creator.name }"
-      when "card_unstaged"
-        "#{event.creator.name} removed this from '#{event.stage_name}'."
-      when "card_due_date_added"
-        "#{event.creator.name} set due date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}."
-      when "card_due_date_changed"
-        "#{event.creator.name} changed due date to #{event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')}."
-      when "card_due_date_removed"
-        "#{event.creator.name} removed the date."
       when "card_title_changed"
         "#{event.creator.name} changed title from '#{event.particulars.dig('particulars', 'old_title')}' to '#{event.particulars.dig('particulars', 'new_title')}'."
       end
