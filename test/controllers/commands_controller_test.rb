@@ -21,8 +21,8 @@ class CommandsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to cards_path
   end
 
-  test "re-render form on error" do
+  test "get a 422 on errors" do
     post commands_path, params: { command: "/assign @some_missing_user" }, headers: { "HTTP_REFERER" => cards_path }
-    assert_turbo_stream action: :replace, target: "commands_form"
+    assert_response :unprocessable_entity
   end
 end
