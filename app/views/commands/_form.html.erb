@@ -4,7 +4,6 @@
       data: {
         controller: "form",
         terminal_target: "form",
-        turbo_permanent: true,
         action: "turbo:submit-end->terminal#focus keydown.meta+k@document->terminal#focus keydown.enter->terminal#executeCommand keydown.esc->terminal#hideHelpMenu turbo:submit-end->terminal#handleCommandResponse"
       } do %>
   <label class="terminal__label txt-nowrap" for="fizzy_do">Fizzy do &gt;</label>

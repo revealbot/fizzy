@@ -12,7 +12,7 @@ class CommandsController < ApplicationController
         result = command.execute
         respond_with_execution_result(result)
       else
-        render plain: command.title, status: :conflict
+        respond_with_needs_confirmation(command)
       end
     else
       head :unprocessable_entity
@@ -21,7 +21,11 @@ class CommandsController < ApplicationController
 
   private
     def parse_command(string)
-      Command::Parser.new(parsing_context).parse(string)
+      command_parser.parse(string)
+    end
+
+    def command_parser
+      @command_parser ||= Command::Parser.new(parsing_context)
     end
 
     def parsing_context
@@ -37,9 +41,30 @@ class CommandsController < ApplicationController
       when Command::Result::Redirection
         redirect_to result.url
       when Command::Result::ChatResponse
-        render json: result.content, status: :accepted
+        respond_with_chat_response(result)
       else
         redirect_back_or_to root_path
       end
+    end
+
+    def respond_with_chat_response(result)
+      command = chat_response_to_command(result)
+
+      if confirmed?(command)
+        command.execute
+        redirect_back_or_to root_path
+      else
+        respond_with_needs_confirmation(command.commands, redirect_to: result.context_url)
+      end
+    end
+
+    def respond_with_needs_confirmation(commands, redirect_to: nil)
+      render json: { commands: Array(commands).collect(&:title), redirect_to: redirect_to }, status: :conflict
+    end
+
+    def chat_response_to_command(chat_response)
+      context = Command::Parser::Context.new(Current.user, url: chat_response.context_url || request.referrer)
+      parser = Command::Parser.new(context)
+      Command::Composite.new(chat_response.command_lines.collect { parser.parse it })
     end
 end

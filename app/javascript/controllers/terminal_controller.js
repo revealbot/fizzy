@@ -1,14 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 import { HttpStatus } from "helpers/http_helpers"
-import { delay } from "helpers/timing_helpers"
+import { delay, nextFrame } from "helpers/timing_helpers"
 import { marked } from "marked"
 
 export default class extends Controller {
   static targets = [ "input", "form", "confirmation" ]
   static classes = [ "error", "confirmation", "help" ]
+  static values = { originalInput: String, waitingForConfirmation: Boolean }
 
-  disconnect() {
-    if (this.waitingForConfirmation) { this.#reset() }
+  connect() {
+    if (this.waitingForConfirmationValue) {
+      this.inputTarget.setSelectionRange(this.inputTarget.value.length, this.inputTarget.value.length)
+      this.inputTarget.focus()
+    }
   }
 
   // Actions
@@ -33,7 +37,7 @@ export default class extends Controller {
   }
 
   handleKeyPress(event) {
-    if (this.waitingForConfirmation) {
+    if (this.waitingForConfirmationValue) {
       this.#handleConfirmationKey(event.key.toLowerCase())
       event.preventDefault()
     }
@@ -41,12 +45,7 @@ export default class extends Controller {
 
   handleCommandResponse(event) {
     if (event.detail.success) {
-      const response = event.detail.fetchResponse
-      if (response && response.response.headers.get("Content-Type")?.includes("application/json")) {
-        this.#handleJsonCommandResponse(response)
-      } else {
-        this.#reset()
-      }
+      this.#reset()
     } else {
       const response = event.detail.fetchResponse.response
       this.#handleErrorResponse(response)
@@ -79,31 +78,20 @@ export default class extends Controller {
 
   async #handleErrorResponse(response) {
     const status = response.status
-    const message = await response.text()
 
     if (status === HttpStatus.UNPROCESSABLE) {
       this.#showError()
     } else if (status === HttpStatus.CONFLICT) {
-      this.#requestConfirmation(message)
+      const jsonResponse = await response.json()
+      this.#requestConfirmation(jsonResponse)
     }
   }
 
-  #handleJsonCommandResponse(response) {
-    response.response.json().then((commands) => {
-      if (commands.reply) {
-        this.element.querySelector("#chat-insight").innerHTML = marked.parse(commands.reply)
-      } else {
-        this.element.querySelector("#chat-responses").textContent = JSON.stringify(commands, null, 2)
-      }
-      this.#executeCommands(commands)
-    })
-  }
-
   #reset(inputValue = "") {
-    this.formTarget.reset()
+    console.debug("RESET!")
     this.inputTarget.value = inputValue
     this.confirmationTarget.value = ""
-    this.waitingForConfirmation = false
+    this.waitingForConfirmationValue = false
     this.originalInputValue = null
 
     this.element.classList.remove(this.errorClass)
@@ -114,12 +102,20 @@ export default class extends Controller {
     this.element.classList.add(this.errorClass)
   }
 
-  async #requestConfirmation(message) {
+  async #requestConfirmation(jsonResponse) {
+    const message = jsonResponse.commands[0]
+    console.debug("request confirmation", this.inputTarget.value);
     this.originalInputValue = this.inputTarget.value
+
+
     this.element.classList.add(this.confirmationClass)
     this.inputTarget.value = `${message}? [Y/n] `
 
-    this.waitingForConfirmation = true
+    this.waitingForConfirmationValue = true
+
+    if (jsonResponse.redirect_to) {
+      Turbo.visit(jsonResponse.redirect_to, { frame: "cards" })
+    }
   }
 
   #handleConfirmationKey(key) {
@@ -135,32 +131,4 @@ export default class extends Controller {
     this.confirmationTarget.value = "confirmed"
     this.formTarget.requestSubmit()
   }
-
-  async #executeCommands(commands) {
-    for (const command of commands) {
-      if (command.command == "/search") {
-        // Clunky example, for PoC purposes
-        Turbo.visit(`/cards?${toQueryString(command)}`)
-        await delay(2000)
-      } else {
-        this.inputTarget.value = command.command
-        this.formTarget.requestSubmit()
-      }
-    }
-  }
-}
-
-function toQueryString(obj) {
-  const params = new URLSearchParams()
-  for (const key in obj) {
-    const value = obj[key]
-    if (Array.isArray(value)) {
-      for (const item of value) {
-        params.append(`${key}[]`, item)
-      }
-    } else if (value !== undefined && value !== null) {
-      params.append(key, value)
-    }
-  }
-  return params.toString()
 }

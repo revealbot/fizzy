@@ -9,7 +9,7 @@ class Command::GetInsight < Command
 
   def execute
     response = chat.ask query
-    Command::Result::ChatResponse.new({ reply: response.content })
+    Command::Result::InsightResponse.new({ reply: response.content })
   end
 
   def undoable?

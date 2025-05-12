@@ -7,8 +7,8 @@ class Command::ChatQuery < Command
 
   def execute
     response = chat.ask query
-    response = replace_names_with_ids(JSON.parse(response.content))
-    Command::Result::ChatResponse.new(JSON.pretty_generate(response))
+    generated_commands = replace_names_with_ids(JSON.parse(response.content))
+    build_chat_response_with generated_commands
   end
 
   private
@@ -17,6 +17,8 @@ class Command::ChatQuery < Command
       chat.with_instructions(prompt)
     end
 
+    # TODO:
+    #   - Don't generate initial /search if not requested. "Assign to JZ" should
     def prompt
       <<~PROMPT
         You are a helpful assistant that translates natural language into commands that Fizzy understand.
@@ -76,7 +78,9 @@ class Command::ChatQuery < Command
           ]
 
         Unless asking for explicit filtering, always prefer /insight over /search. When asking about "cards" with properties that can
-        be satisfied with /search, then use /search
+        be satisfied with /search, then use /search.
+
+        A response can contain at most one /search command.
 
         Please combine commands to satisfy what the user needs. E.g: search with keywords and filters and then apply
         as many commands as needed. Make sure you don't leave actions mentioned in the query needs unattended.'
@@ -111,4 +115,19 @@ class Command::ChatQuery < Command
       User.all.find { |user| user.mentionable_handles.include?(string_without_at) }
     end
 
+    def build_chat_response_with(generated_commands)
+      Command::Result::ChatResponse.new \
+        command_lines: response_command_lines_from(generated_commands),
+        context_url: response_context_url_from(generated_commands)
+    end
+
+    def response_command_lines_from(generated_commands)
+      generated_commands.filter { it["command"] != "/search" }.collect { it["command"] }
+    end
+
+    def response_context_url_from(generated_commands)
+      if search_command = generated_commands.find { it["command"] == "/search" }
+        cards_path(**search_command.without("command"))
+      end
+    end
 end
