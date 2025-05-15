@@ -67,8 +67,23 @@ export default class extends Controller {
     this.element.classList.add(this.busyClass)
   }
 
+  #reset(inputValue = "") {
+    this.inputTarget.value = inputValue
+    this.confirmationTarget.value = ""
+    this.waitingForConfirmationValue = false
+    this.originalInputValue = null
+
+    this.element.classList.remove(this.errorClass)
+    this.element.classList.remove(this.confirmationClass)
+    this.element.classList.remove(this.busyClass)
+  }
+
   get #showHelpCommandEntered() {
     return [ "/help", "/?" ].includes(this.inputTarget.value)
+  }
+
+  get #isHelpMenuOpened() {
+    return this.element.classList.contains(this.helpClass)
   }
 
   #showHelpMenu() {
@@ -78,10 +93,6 @@ export default class extends Controller {
   #hideHelpMenu() {
     if (this.#showHelpCommandEntered) { this.#reset() }
     this.element.classList.remove(this.helpClass)
-  }
-
-  get #isHelpMenuOpened() {
-    return this.element.classList.contains(this.helpClass)
   }
 
   #handleSuccessResponse(response) {
@@ -102,17 +113,6 @@ export default class extends Controller {
     } else if (status === HttpStatus.CONFLICT) {
       await this.#handleConflictResponse(response)
     }
-  }
-
-  #reset(inputValue = "") {
-    this.inputTarget.value = inputValue
-    this.confirmationTarget.value = ""
-    this.waitingForConfirmationValue = false
-    this.originalInputValue = null
-
-    this.element.classList.remove(this.errorClass)
-    this.element.classList.remove(this.confirmationClass)
-    this.element.classList.remove(this.busyClass)
   }
 
   #showError() {
