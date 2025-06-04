@@ -1,5 +1,5 @@
 .knob {
-  --knob-angle-reserve: 120deg;
+  --knob-angle-reserve: 120deg; /* The angle to reserve at the bottom for the label */
   --knob-option-angle: calc((360deg - var(--knob-angle-reserve)) / (var(--knob-options) - 1));
   --knob-option-size: 3ch;
   --knob-chamfer-size: 1ch;
