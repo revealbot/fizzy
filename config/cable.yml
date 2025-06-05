@@ -6,14 +6,9 @@ cable: &cable
   polling_interval: 0.1.seconds
   message_retention: 1.day
 
-development:
-  <<: *cable
-
+development: *cable
 test:
   adapter: test
-
-production: &production
-  <<: *cable
-
-beta:
-  <<: *production
+beta: *cable
+staging: *cable
+production: *cable

@@ -40,7 +40,7 @@ test:
 production: &production
   primary:
     <<: *default
-    database: storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3
+    database: file:storage/tenants/<%= Rails.env %>/%{tenant}/db/main.sqlite3?vfs=beamer
     tenanted: true
     extensions:
       - ./bin/lib/beamer.so
@@ -63,5 +63,5 @@ production: &production
     database: storage/production_queue.sqlite3
     migrations_paths: db/queue_migrate
 
-beta:
-  <<: *production
+beta: *production
+staging: *production

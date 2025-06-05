@@ -45,29 +45,40 @@ For testing OpenAI API requests, we use [VCR](https://github.com/vcr/vcr). If yo
 that you can get from 1Password in "Fizzy - test.key". Then, when running tests that use Open AI API, you must either set the env variable VCR_RECORD=1
 or to add `vcr_record!` to the test. See `VcrTestHelper`.
 
-## Deploying
+## Environments
 
 Fizzy is deployed with Kamal. You'll need to have the 1Password CLI set up in order to access the secrets that are used when deploying. Provided you have that, it should be as simple as `bin/kamal deploy` to the correct environment.
 
 ### Beta
 
-For beta:
-
-    bin/kamal deploy -d beta
+Beta is primarily intended for testing product features.
 
 Beta tenant is:
 
 - https://fizzy.37signals.works/
 
+This environment uses local disk for Active Storage.
+
+
+### Staging
+
+Staging is primarily intended for testing infrastructure changes.
+
+Production tenants are:
+
+- https://37s.fizzy.37signals-staging.com/
+- https://dev.fizzy.37signals-staging.com/
+- https://qa.fizzy.37signals-staging.com/
+
+This environment uses a FlashBlade bucket for blob storage, and shares nothing with Production. We may periodically copy data here from production.
+
 
 ### Production
-
-And for production:
-
-    bin/kamal deploy -d production
 
 Production tenants are:
 
 - https://37s.fizzy.37signals.com/
 - https://dev.fizzy.37signals.com/
 - https://qa.fizzy.37signals.com/
+
+This environment uses a FlashBlade bucket for blob storage.

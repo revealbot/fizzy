@@ -50,6 +50,6 @@ module CardsHelper
   end
 
   def cacheable_preview_parts_for(card)
-    [ card, card.collection.workflow, Entropy::Configuration.default ]
+    [ card, card.collection.workflow, card.collection.entropy_configuration ]
   end
 end

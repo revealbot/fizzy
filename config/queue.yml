@@ -8,14 +8,8 @@ default: &default
       processes: <%= ENV.fetch("JOB_CONCURRENCY", 1) %>
       polling_interval: 0.1
 
-development:
-  <<: *default
-
-test:
-  <<: *default
-
-production: &production
-  <<: *default
-
-beta:
-  <<: *production
+development: *default
+test: *default
+beta: *default
+staging: *default
+production: *default

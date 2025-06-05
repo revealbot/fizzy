@@ -1,13 +1,13 @@
 servers:
   web:
     hosts:
-      - fizzy-app-101
+      - fizzy-staging-app-01
   jobs:
     hosts:
-      - fizzy-app-101
+      - fizzy-staging-app-01
   web-replica:
     hosts:
-      - fizzy-app-102
+      - fizzy-staging-app-101
     proxy: true
 
 proxy:
@@ -18,7 +18,7 @@ ssh:
 
 env:
   clear:
-    RAILS_ENV: production
+    RAILS_ENV: staging
 
 x-beamer-accessory: &beamer-accessory
   image: basecamp/beamer:vfs
@@ -44,7 +44,7 @@ accessories:
   beamer-replica:
     <<: *beamer-accessory
     service: beamer-replica
-    cmd: beamer replica --primary=http://fizzy-app-101:5000/ --dir=/storage
+    cmd: beamer replica --primary=http://fizzy-staging-app-01:5000/ --dir=/storage
     roles:
       - web-replica
 

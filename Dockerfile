@@ -39,7 +39,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
 # Fetch beamer library
-FROM basecamp/beamer:latest AS beamer
+FROM basecamp/beamer:vfs AS beamer
 
 
 # Final stage for app image

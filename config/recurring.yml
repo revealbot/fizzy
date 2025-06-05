@@ -15,5 +15,5 @@ production: &production
     class: DeleteUnusedTagsJob
     schedule: every day at 04:00
 
-beta:
-  <<: *production
+beta: *production
+staging: *production

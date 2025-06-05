@@ -10,16 +10,12 @@ default_connection: &default_connection
     database:
       writing: :cache
 
-development:
+default: &default
   <<: *default_connection
   <<: *default_options
 
-test:
-  <<: *default_options
-
-production: &production
-  <<: *default_connection
-  <<: *default_options
-
-beta:
-  <<: *production
+development: *default
+test: *default_options
+beta: *default
+staging: *default
+production: *default
