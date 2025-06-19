@@ -158,6 +158,8 @@ Rails.application.routes.draw do
 
   root "events#index"
 
+  Queenbee.routes(self)
+
   namespace :admin do
     mount MissionControl::Jobs::Engine, at: "/jobs"
   end

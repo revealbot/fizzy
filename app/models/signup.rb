@@ -143,7 +143,8 @@ class Signup
     end
 
     def subscription_attributes
-      { name: "FreeV1", price: 0 }
+      subscription = FreeV1Subscription
+      { name: subscription.to_param, price: subscription.price }
     end
 
     def request_attributes

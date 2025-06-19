@@ -1,6 +1,9 @@
 require "test_helper"
 
 class Account::SignalAccountTest < ActiveSupport::TestCase
+  # # TODO(MIKE): Queenbee client API compliance tests
+  # include Queenbee::Testing::Client
+
   setup do
     @account = accounts("37s")
   end

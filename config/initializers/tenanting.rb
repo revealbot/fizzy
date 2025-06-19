@@ -8,7 +8,7 @@ Rails.application.config.after_initialize do
       nil
     elsif subdomain = request.subdomain(tld_length).presence
       subdomain
-    elsif optional = request.path =~ %r{^/signup\b}
+    elsif request.path =~ %r{^/(queenbee|signup)\b}
       nil
     else
       "return-404" # this is a quick fix for now
