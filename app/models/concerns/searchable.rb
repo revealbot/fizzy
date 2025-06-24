@@ -31,12 +31,13 @@ module Searchable
       after_destroy_commit :remove_from_search_index
 
       scope :search, ->(query) do
-        if query = sanitize_query_syntax(query)
-          joins("join #{using} idx on #{table_name}.id = idx.rowid").where("#{using} match ?", query)
+        if query = Search::Query.wrap(query)
+          joins("join #{using} idx on #{table_name}.id = idx.rowid").where("#{using} match ?", query.to_s)
         else
           none
         end
       end
+
       scope :search_similar, ->(query) do
         query_embedding = Rails.cache.fetch("embed-search:#{query}") { RubyLLM.embed(Ai::Tokenizer.truncate(query)) }
         joins(:search_embedding)
@@ -44,26 +45,6 @@ module Searchable
           .order(:distance)
       end
     end
-
-    def sanitize_query_syntax(terms)
-      terms = terms.to_s
-      terms = remove_invalid_search_characters(terms)
-      terms = remove_unbalanced_quotes(terms)
-      terms.presence
-    end
-
-    private
-      def remove_invalid_search_characters(terms)
-        terms.gsub(/[^\w"]/, " ")
-      end
-
-      def remove_unbalanced_quotes(terms)
-        if terms.count("\"").even?
-          terms
-        else
-          terms.gsub("\"", " ")
-        end
-      end
   end
 
   def reindex

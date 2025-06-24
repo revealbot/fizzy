@@ -8,9 +8,9 @@ module ApplicationHelper
   end
 
   def circled_text(text, **options)
-    tag.mark(class: class_names("circled-text", options.delete(:class)), "aria-hidden": true, **options) do
+    tag.mark(class: class_names("circled-text", options.delete(:class)), **options) do
       concat text
-      concat(tag.span)
+      concat(tag.span("", "aria-hidden": true))
     end
   end
 end

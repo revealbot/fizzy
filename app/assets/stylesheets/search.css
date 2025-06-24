@@ -12,10 +12,13 @@
     }
   }
 
+  .search__form {
+    grid-column: 1 / -1;
+  }
+
   .search__field {
     --search-btn-size: 2rem;
 
-    grid-column: 1 / -1;
     position: relative;
 
     .btn {

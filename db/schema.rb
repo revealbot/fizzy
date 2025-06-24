@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_24_055720) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_24_063244) do
   create_table "accesses", force: :cascade do |t|
     t.integer "collection_id", null: false
     t.datetime "created_at", null: false
@@ -303,6 +303,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_24_055720) do
 # Could not dump table "search_embeddings_vector_chunks00" because of following StandardError
 #   Unknown type '' for column 'rowid'
 
+
+  create_table "search_results", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false

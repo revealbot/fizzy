@@ -1,0 +1,39 @@
+<% @page_title = "Search" %>
+
+<% content_for :header do %>
+  <nav>
+    <%= link_to_back fallback_path: root_path %>
+
+    <header class="center">
+      <h1 class="txt-large margin-none"><%= @page_title %></h1>
+    </header>
+
+    <div class="btn btn--placeholder flex-item-justify-end"></div>
+  </nav>
+<% end %>
+
+<section class="search">
+  <%= form_with url: search_path, method: :get, class: "search__form" do |form| %>
+    <div class="search__field">
+      <%= text_field_tag :q, params[:q], class: "input", type: "search", placeholder: "What are you looking for?" %>
+      <span class="search__field-icon btn btn--circle borderless">
+        <%= icon_tag "search" %>
+      </span>
+      <%= link_to search_path, class: "search__field-clear btn btn--circle borderless" do %>
+        <%= icon_tag "close" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <ul class="search__list">
+    <%= render partial: "searches/result", collection: @search.results %>
+  </ul>
+
+  <ul class="search__history">
+    <% 7.times do %>
+      <li>
+        <%= link_to "historic search term", "#" %>
+      </li>
+    <% end %>
+  </ul>
+</section>

@@ -1,0 +1,35 @@
+<li>
+  <div class="card card--search">
+    <header class="card__header">
+      <label class="card__collection flex align-center">
+        <span class="card__id"><%= result.card_id %></span>
+        <span class="card__collection-name">
+        <span class="overflow-ellipsis"><%= result.collection_name %></span>
+      </span>
+      </label>
+    </header>
+
+    <div class="card__body justify-space-between">
+      <div class="card__content">
+        <h3 class="card__title">
+          <%= result.card_title&.html_safe %>
+        </h3>
+
+        <% if result.card_description.present? %>
+          <div class="search__excerpt">
+            <%= result.card_description.html_safe %>
+          </div>
+        <% else
+             if result.comment_body.present? %>
+            <div class="search__excerpt search__excerpt--comment">
+              <%= avatar_tag result.creator %>
+              <div>
+                <%= result.comment_body.html_safe %>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</li>

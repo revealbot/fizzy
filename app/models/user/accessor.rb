@@ -5,6 +5,7 @@ module User::Accessor
     has_many :accesses, dependent: :destroy
     has_many :collections, through: :accesses
     has_many :accessible_cards, through: :collections, source: :cards
+    has_many :accessible_comments, through: :accessible_cards, source: :comments
 
     after_create_commit :grant_access_to_collections
   end

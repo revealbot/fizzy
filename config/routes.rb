@@ -61,7 +61,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :search, only: :index
+  resource :search
 
   resources :filters
 

@@ -913,6 +913,10 @@ columns:
     default_function:
     collation:
     comment:
+  search_results:
+  - *5
+  - *6
+  - *9
   sessions:
   - *5
   - *6
@@ -1084,6 +1088,7 @@ primary_keys:
   reactions: id
   schema_migrations: version
   search_embeddings_vector_chunks00: rowid
+  search_results: id
   sessions: id
   taggings: id
   tags: id
@@ -1125,6 +1130,7 @@ data_sources:
   reactions: true
   schema_migrations: true
   search_embeddings_vector_chunks00: true
+  search_results: true
   sessions: true
   taggings: true
   tags: true
@@ -2185,6 +2191,7 @@ indexes:
     valid: true
   schema_migrations: []
   search_embeddings_vector_chunks00: []
+  search_results: []
   sessions:
   - !ruby/object:ActiveRecord::ConnectionAdapters::IndexDefinition
     table: sessions
@@ -2337,4 +2344,4 @@ indexes:
     comment:
     valid: true
   workflows: []
-version: 20250624055720
+version: 20250624063244
