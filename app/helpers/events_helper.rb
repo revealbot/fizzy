@@ -123,17 +123,4 @@ module EventsHelper
       "person"
     end
   end
-
-  def event_template_name(event)
-    base_type = event.eventable_type.demodulize.underscore
-
-    case event.action
-    when "card_published"
-      "card_published"
-    when "comment_created"
-      base_type
-    else
-      base_type
-    end
-  end
 end
