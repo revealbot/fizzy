@@ -25,8 +25,8 @@ RUN apt-get update -qq && \
 # Install application gems
 COPY Gemfile Gemfile.lock .ruby-version ./
 RUN --mount=type=secret,id=GITHUB_TOKEN \
-    BUNDLE_GITHUB__COM="$(cat /run/secrets/GITHUB_TOKEN):x-oauth-basic" bundle install && \
     gem install bundler &&\
+    BUNDLE_GITHUB__COM="$(cat /run/secrets/GITHUB_TOKEN):x-oauth-basic" bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
