@@ -49,18 +49,18 @@
         margin-block-start: 1lh;
       }
     }
+  }
 
-    span {
-      display: block;
-      font-weight: 500;
-      margin-block: 2lh;
-      opacity: 0.5;
-    }
+  .events__activity-generating-msg {
+    display: block;
+    font-weight: 500;
+    margin-block: 2lh;
+    opacity: 0.5;
+  }
 
-    .btn {
-      inset: auto 1em 1em auto;
-      position: absolute;
-    }
+  .events__activity-prompt-edit {
+    inset: auto 1em 1em auto;
+    position: absolute;
   }
 
   .events__day {
