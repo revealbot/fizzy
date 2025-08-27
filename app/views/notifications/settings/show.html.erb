@@ -1,13 +1,8 @@
 <% @page_title = "Notifications settings" %>
 
 <% content_for :header do %>
-  <div class="header__actions header__actions--start">
-    <%= link_to_back fallback_path: notifications_path %>
-  </div>
-
+  <%= render "filters/menu", user_filtering: @user_filtering %>
   <h1 class="header__title"><%= @page_title %></h1>
-
-  <div class="header__actions header__actions--end"></div>
 <% end %>
 
 <div class="notifications__status panel fill-shade center margin-block-start margin-block-end-double" data-controller="notifications" data-notifications-subscriptions-url-value="<%= user_push_subscriptions_path(Current.user) %>" data-notifications-enabled-class="notifications--on">
