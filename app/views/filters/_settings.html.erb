@@ -1,7 +1,7 @@
 <% cache user_filtering do %>
   <%= tag.aside id: "filter-settings",
         class: class_names("filters flex align-center gap-half justify-center center margin-block-end", { "filters--expanded": user_filtering.expanded? }),
-        data: { controller: "toggle-class filter-settings", toggle_class_toggle_class: "filters--expanded", filter_settings_filters_set_class: "filters--has-filters-set" } do %>
+        data: { controller: "toggle-class filter-settings", toggle_class_toggle_class: "filters--expanded", filter_settings_filters_set_class: "filters--has-filters-set", filter_settings_refresh_save_toggle_url_value: save_toggle_refresh_path } do %>
     <div class="flex-inline center align-center gap-half" data-controller="toggle-enable">
       <%= render "filters/settings/terms", user_filtering: user_filtering %>
       <%= render "filters/settings/controls", user_filtering: user_filtering %>

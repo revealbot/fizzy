@@ -1,5 +1,5 @@
 <%= form_with url: cards_path, method: :get, class: "flex-inline center align-center gap-half",
-      data: { controller: "form", turbo_frame: "card_columns", turbo_action: "advance" } do |form| %>
+      data: { controller: "form", turbo_frame: "card_columns", turbo_action: "advance", filter_settings_target: "form" } do |form| %>
   <%= hidden_field_tag :expand_all, true, disabled: !user_filtering.expanded?, data: { toggle_enable_target: "element" } %>
   <% user_filtering.filter.collections.each do |collection| %>
     <%= filter_hidden_field_tag "collection_ids[]", collection.id %>

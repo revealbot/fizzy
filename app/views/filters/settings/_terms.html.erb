@@ -1,6 +1,6 @@
 <% filter = user_filtering.filter %>
 
-<%= form_with url: cards_path, method: :get, class: "", data: { controller: "form", turbo_frame: "card_columns", action: "input->form#debouncedSubmit" } do |form| %>
+<%= form_with url: cards_path, method: :get, class: "", data: { controller: "form", turbo_frame: "card_columns", action: "input->form#debouncedSubmit", filter_settings_target: "form" } do |form| %>
   <% filter.as_params.except(:terms).each do |key, value| %>
     <%= filter_hidden_field_tag key, value %>
   <% end %>

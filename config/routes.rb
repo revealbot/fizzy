@@ -81,7 +81,13 @@ Rails.application.routes.draw do
     resources :queries
   end
 
-  resources :filters
+  resources :filters do
+    scope module: :filters do
+      collection do
+        resource :save_toggle_refresh, only: :create
+      end
+    end
+  end
 
   resources :events, only: :index
   namespace :events do
