@@ -21,7 +21,7 @@
   }
 
   .card-columns {
-    --collapsed: 40px; 
+    --collapsed: 40px;
     --expanded-min: 450px;
 
     display: flex;
@@ -84,7 +84,7 @@
       flex: 0 0 var(--collapsed);
       inline-size: var(--collapsed);
       min-inline-size: 0;
-      
+
       .blank-slate,
       .card {
         display: none;
@@ -138,7 +138,8 @@
       .cards:not(.is-collapsed) & {
         --btn-padding: 0;
 
-        margin-block-start: calc(var(--collapsed) / 5);
+        font-weight: 600;
+        margin-block-start: 0;
       }
     }
 
@@ -171,7 +172,7 @@
         display: none;
       }
     }
-    
+
     .progress-1 { block-size: calc(var(--max-height) * 0.05); }
     .progress-2 { block-size: calc(var(--max-height) * 0.10); }
     .progress-3 { block-size: calc(var(--max-height) * 0.15); }
@@ -472,7 +473,7 @@
     .card {
       --card-color: var(--color-card-complete) !important;
     }
-  
+
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
     }
@@ -482,8 +483,67 @@
   /* ------------------------------------------------------------------------ */
 
   .cards--doing {
-    margin-block: var(--cards-gap);
-  
+    --pattern-color: color-mix(in srgb, var(--card-color) 50%, var(--color-canvas));
+
+    &:not(.is-collapsed) {
+      background-color: var(--color-canvas);
+      background-image: linear-gradient(90deg,
+        transparent 0%,
+        color-mix(in srgb, var(--pattern-color) 25%, transparent) 33%,
+        color-mix(in srgb, var(--pattern-color) 25%, transparent) 66%,
+        transparent 100%);
+      margin-block: var(--cards-gap);
+
+      @supports(mask: radial-gradient(black)) {
+        &:before {
+          background: linear-gradient(90deg,
+            color-mix(in oklch, var(--pattern-color) 0%, transparent) 0%,
+            color-mix(in oklch, var(--pattern-color) 20%, transparent) 25%,
+            color-mix(in oklch, var(--pattern-color) 20%, transparent) 50%,
+            color-mix(in oklch, var(--pattern-color) 0%, transparent) 100%);
+          content: "";
+          inset: 0;
+          mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
+                radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+          position: absolute;
+          z-index: 0;
+        }
+      }
+
+      .cards__decoration {
+        --size: 4.25em;
+
+        background-color: var(--color-canvas);
+        background-image: radial-gradient(ellipse at bottom,
+          color-mix(in srgb, var(--pattern-color) 30%, transparent) 0%,
+          transparent 70%);
+        block-size: var(--size);
+        inline-size: 100%;
+        inset: calc(var(--size) * -1) 0 auto 0;
+        position: absolute;
+        z-index: -1;
+
+        @supports(mask: radial-gradient(black)) {
+          &:before {
+            background: radial-gradient(ellipse at bottom,
+              color-mix(in srgb, var(--pattern-color) 30%, transparent) 0%,
+              transparent 70%);
+            content: "";
+            inset: 0;
+            mask: radial-gradient(6px at 50% calc(100% + 3px), transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) calc(50% - 8px) calc(50% - 3px + .5px)/16px 6px,
+                  radial-gradient(6px at 50% -3px, transparent calc(99% - 2px), black calc(101% - 2px) 99%, transparent 101%) 50% calc(50% + 3px)/16px 6px;
+            position: absolute;
+            z-index: 0;
+          }
+        }
+
+        &.cards__decoration--end {
+          inset: auto 0 calc(var(--size) * -1);
+          rotate: 180deg;
+        }
+      }
+    }
+
     @media (min-width: 640px) {
       padding-inline: var(--cards-gap);
     }
