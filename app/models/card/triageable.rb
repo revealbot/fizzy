@@ -21,7 +21,6 @@ module Card::Triageable
 
     transaction do
       resume
-      activity_spike&.destroy
       update! column: column
     end
   end
@@ -29,7 +28,7 @@ module Card::Triageable
   def send_back_to_triage
     transaction do
       resume
-      update!(column: nil)
+      update! column: nil
     end
   end
 end
