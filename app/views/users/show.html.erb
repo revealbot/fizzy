@@ -29,8 +29,8 @@
     </div>
 
     <div class="flex-inline center justify-center flex-wrap gap">
-      <%= link_to "Which cards are assigned to #{ Current.user == @user ? "you" : @user.first_name }?", cards_path(assignee_ids: [@user.id], sorted_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
-      <%= link_to "Which cards were added by #{ Current.user == @user ? "you" : @user.first_name }?", cards_path(creator_ids: [@user.id], sorted_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+      <%= link_to "Which cards are assigned to #{ Current.user == @user ? "me" : @user.first_name }?", cards_path(assignee_ids: [@user.id], sorted_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
+      <%= link_to "Which cards were added by #{ Current.user == @user ? "me" : @user.first_name }?", cards_path(creator_ids: [@user.id], sorted_by: "newest"), class: "btn", data: { turbo_frame: "_top" } %>
     </div>
   </div>
 </div>
