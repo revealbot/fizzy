@@ -61,7 +61,7 @@ module EventsHelper
   end
 
   def comment_event_action_sentence(event)
-    "#{h event_creator_name(event) } commented on <span style='color: var(--card-color)'>#{h event.eventable.card.title }</span>".html_safe
+    "#{h event_creator_name(event) } commented on <span style='color: var(--card-color)'>\"#{h event.eventable.card.title }\"</span>".html_safe
   end
 
   def event_creator_name(event)
@@ -75,28 +75,28 @@ module EventsHelper
     case event.action
     when "card_assigned"
       if event.assignees.include?(Current.user)
-        "#{h event_creator_name(event) } will handle <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+        "#{h event_creator_name(event) } will handle <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
       else
-        "#{h event_creator_name(event) } assigned #{h event.assignees.pluck(:name).to_sentence } to <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+        "#{h event_creator_name(event) } assigned #{h event.assignees.pluck(:name).to_sentence } to <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
       end
     when "card_unassigned"
-      "#{h event_creator_name(event) } unassigned #{ h(event.assignees.include?(Current.user) ? "yourself" : event.assignees.pluck(:name).to_sentence) } from <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+      "#{h event_creator_name(event) } unassigned #{ h(event.assignees.include?(Current.user) ? "yourself" : event.assignees.pluck(:name).to_sentence) } from <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
     when "card_published"
-      "#{h event_creator_name(event) } added <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+      "#{h event_creator_name(event) } added <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
     when "card_closed"
-      "#{h event_creator_name(event) } marked <span style='color: var(--card-color)'>#{h title }</span> as done".html_safe
+      "#{h event_creator_name(event) } marked <span style='color: var(--card-color)'>\"#{h title }\"</span> as done".html_safe
     when "card_reopened"
-      "#{h event_creator_name(event) } reopened <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+      "#{h event_creator_name(event) } reopened <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
     when "card_due_date_added"
-      "#{h event_creator_name(event)} set the date to #{h event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+      "#{h event_creator_name(event)} set the date to #{h event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
     when "card_due_date_changed"
-      "#{h event_creator_name(event)} changed the date to #{h event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+      "#{h event_creator_name(event)} changed the date to #{h event.particulars.dig('particulars', 'due_date').to_date.strftime('%B %-d')} on <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
     when "card_due_date_removed"
-      "#{h event_creator_name(event)} removed the date on <span style='color: var(--card-color)'>#{h title }</span>".html_safe
+      "#{h event_creator_name(event)} removed the date on <span style='color: var(--card-color)'>\"#{h title }\"</span>".html_safe
     when "card_title_changed"
-      "#{h event_creator_name(event)} renamed <span style='color: var(--card-color)'>#{h title }</span> (was: '#{h event.particulars.dig('particulars', 'old_title')})'".html_safe
+      "#{h event_creator_name(event)} renamed <span style='color: var(--card-color)'>\"#{h title }\"</span> (was: '#{h event.particulars.dig('particulars', 'old_title')})'".html_safe
     when "card_collection_changed"
-      "#{h event_creator_name(event)} moved <span style='color: var(--card-color)'>#{h title }</span> to '#{h event.particulars.dig('particulars', 'new_collection')}'".html_safe
+      "#{h event_creator_name(event)} moved <span style='color: var(--card-color)'>\"#{h title }\"</span> to '#{h event.particulars.dig('particulars', 'new_collection')}'".html_safe
     end
   end
 
