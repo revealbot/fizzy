@@ -42,7 +42,7 @@ class Account::Seeder
       HTML
 
       playground.cards.create! creator: creator, title: "Head back home to check out activity", status: "published", description: <<~HTML
-        <p>Hit “1” or pull down the BOXCAR menu and select “Home”.</p>
+        <p>Hit “1” or pull down the Fizzy menu and select “Home”.</p>
       HTML
 
       playground.cards.create! creator: creator, title: "Check out all cards assigned to you", status: "published", description: <<~HTML
