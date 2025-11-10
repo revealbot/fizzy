@@ -29,11 +29,11 @@ def create_tenant(signal_account_name)
 end
 
 def find_or_create_user(full_name, email_address)
-  if user = Identity.find_by(email_address: email_address)&.memberships&.find_by(tenant: Current.account.id)&.user
+  if user = Identity.find_by(email_address: email_address)&.memberships&.find_by(tenant: Current.account.external_account_id)&.user
     user
   else
     identity = Identity.find_or_create_by!(email_address: email_address)
-    membership = identity.memberships.find_or_create_by!(tenant: Current.account.id)
+    membership = identity.memberships.find_or_create_by!(tenant: Current.account.external_account_id)
 
     user = User.create! \
       name: full_name,
