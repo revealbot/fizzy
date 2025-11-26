@@ -8,8 +8,6 @@
 #   - size: :medium: 16,777,215 (MEDIUMTEXT)
 #   - size: :long: 4,294,967,295 (LONGTEXT)
 #
-# This ensures the SQLite schema records the same limits as MySQL,
-# which the ColumnLimits validation concern uses to enforce limits.
 
 module TableDefinitionColumnLimits
   TEXT_SIZE_TO_LIMIT = {
@@ -45,14 +43,28 @@ ActiveSupport.on_load(:active_record) do
   ActiveRecord::ConnectionAdapters::TableDefinition.prepend(TableDefinitionColumnLimits)
 end
 
-ActiveSupport.on_load(:action_text_rich_text) do
-  include ColumnLimits
+# For SQLite: append inline CHECK constraints to enforce string/text length limits.
+# since SQLite doesn't natively enforce VARCHAR/TEXT length limits.
+module SQLiteColumnLimitCheckConstraints
+  def add_column_options!(sql, options)
+    super
+
+    column = options[:column]
+    if column && column.limit && %i[string text].include?(column.type)
+      check_expr = if column.type == :string
+        # VARCHAR limits are in characters
+        %(length("#{column.name}") <= #{column.limit})
+      else
+        # TEXT limits are in bytes
+        %(length(CAST("#{column.name}" AS BLOB)) <= #{column.limit})
+      end
+      sql << " CHECK(#{check_expr})"
+    end
+
+    sql
+  end
 end
 
-ActiveSupport.on_load(:active_storage_blob) do
-  include ColumnLimits
-end
-
-ActiveSupport.on_load(:active_storage_attachment) do
-  include ColumnLimits
+ActiveSupport.on_load(:active_record_sqlite3adapter) do
+  ActiveRecord::ConnectionAdapters::SQLite3::SchemaCreation.prepend(SQLiteColumnLimitCheckConstraints)
 end
